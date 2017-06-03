@@ -1,26 +1,30 @@
 interface User {
-    name: string,
-    id: string
+    _id: string,
+    firstName: string,
+    lastName: string,
+    photoUrl: string
 }
 
 interface Debt {
+    _id: string,
+    debtor: User,
+    creditor: User,
     amount: number,
-    reason: string,
-    id: string
+    timestamp: number,
+    reason: string
 }
 
 declare namespace Store {
 
-    export type UserProps = {
-        users: User[],
-        isFetchingUsers: boolean,
-        me: User
-    }
-
-    export type DebtProps = {
+    export type DebtsProps = {
         debts: Debt[],
         isFetchingDebts: boolean
     }
 
-    export type All = UserProps & DebtProps;
+    export type DebtProps = {
+        debt: Debt,
+        isFetchingDebt: boolean
+    }
+
+    export type All = DebtsProps & DebtProps;
 }

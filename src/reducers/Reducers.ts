@@ -2,13 +2,10 @@ import {
     FETCH_DEBTS, FETCH_DEBTS_FULFILLED
 } from "../actions/Actions";
 
-export const debts = (state: Debt[] = [], action: ActionWithPayload<Debt[]>): Debt[] => {
+export const debts = (state: Debt[] = [], action: ActionWithPayload<any>): Debt[] => {
     switch (action.type) {
-        case FETCH_DEBTS:
-            return [];
-
         case FETCH_DEBTS_FULFILLED:
-            return action.payload;
+            return action.payload.data.debts;
 
         default:
             return state;
