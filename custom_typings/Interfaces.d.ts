@@ -14,7 +14,20 @@ interface Debt {
     reason: string
 }
 
+interface DebtsList {
+    _id: string,
+    members: User[],
+    debts: Debt[],
+    totalAmount: number,
+    lastTimestamp: number
+}
+
 declare namespace Store {
+
+    export type DebtsListsProps = {
+        debtsLists: DebtsList[],
+        isFetchingDebtsLists: boolean
+    }
 
     export type DebtsProps = {
         debts: Debt[],
@@ -26,5 +39,5 @@ declare namespace Store {
         isFetchingDebt: boolean
     }
 
-    export type All = DebtsProps & DebtProps;
+    export type All = DebtsListsProps & DebtsProps & DebtProps;
 }

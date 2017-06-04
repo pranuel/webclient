@@ -1,8 +1,10 @@
-import { debts, isFetchingDebts } from './Reducers';
+import { debts, isFetchingDebts, debtsLists, isFetchingDebtsLists } from './Reducers';
 import { combineReducers } from "redux";
 
 // create root reducer for redux:
 export const rootReducer = combineReducers({
     debts,
-    isFetchingDebts
+    isFetchingDebts,
+    debtsLists,
+    isFetchingDebtsLists
 });

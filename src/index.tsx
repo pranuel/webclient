@@ -11,6 +11,7 @@ import { createEpicMiddleware, combineEpics } from "redux-observable";
 import { rootReducer } from './reducers';
 import { rootEpic } from "./epics";
 import { App } from "./components/App";
+import { IntlProvider } from "react-intl";
 
 
 // register redux dev tools extension at redux:
@@ -26,10 +27,12 @@ const store = createStore(rootReducer, {},
 );
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Router history={hashHistory}>
-            <Route path="/" component={App} />
-        </Router>
-    </Provider>,
+    <IntlProvider locale={navigator.language}>
+        <Provider store={store}>
+            <Router history={hashHistory}>
+                <Route path="/" component={App} />
+            </Router>
+        </Provider>
+    </IntlProvider>,
     document.getElementById("root")
 );

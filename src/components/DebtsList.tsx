@@ -3,25 +3,25 @@ import * as redux from 'redux';
 import { connect } from 'react-redux';
 import { Grid, Container, Card } from "semantic-ui-react";
 
-import { fetchDebts } from "../actions/Actions";
+import { fetchDebtsLists } from "../actions/Actions";
 import { DebtsListItem } from "./DebtsListItem";
 
 type DispatchProps = {
-    fetchDebts: () => { type: string }
+    fetchDebtsLists: () => { type: string }
 };
 
 type OwnProps = {};
 
-type DebtsListProps = Store.DebtsProps & DispatchProps & OwnProps;
+type DebtsListProps = Store.DebtsListsProps & DispatchProps & OwnProps;
 
-const mapStateToProps = (state: Store.All, ownProps: OwnProps): Store.DebtsProps => ({
-    debts: state.debts,
-    isFetchingDebts: state.isFetchingDebts
+const mapStateToProps = (state: Store.All, ownProps: OwnProps): Store.DebtsListsProps => ({
+    debtsLists: state.debtsLists,
+    isFetchingDebtsLists: state.isFetchingDebtsLists
 });
 
 const mapDispatchToProps = (dispatch: redux.Dispatch<Store.All>): DispatchProps => ({
-    fetchDebts: () =>
-        dispatch(fetchDebts())
+    fetchDebtsLists: () =>
+        dispatch(fetchDebtsLists())
 });
 
 class DebtsListComponent extends React.Component<DebtsListProps, {}> {
@@ -31,17 +31,17 @@ class DebtsListComponent extends React.Component<DebtsListProps, {}> {
     }
 
     fetchDebts() {
-        this.props.fetchDebts();
+        this.props.fetchDebtsLists();
     }
 
     render() {
 
-        const { debts, isFetchingDebts } = this.props;
+        const { debtsLists, isFetchingDebtsLists } = this.props;
 
         return (
             <Card.Group stackable>
-                {debts.map(debt => 
-                <DebtsListItem debt={debt} key={debt._id}></DebtsListItem>
+                {debtsLists.map(debtsList =>
+                    <DebtsListItem debtsList={debtsList} key={debtsList._id}></DebtsListItem>
                 )}
             </Card.Group>
         );

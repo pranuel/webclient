@@ -5,6 +5,22 @@ export class DataService {
 
     private baseUrl = "http://localhost:4001/graphql";
 
+    fetchDebtsLists(): Observable<DebtsList[]> {
+        let query: string = `{
+                                debtsLists {
+                                    members {
+                                        firstName,
+                                        lastName,
+                                        photoUrl
+                                    },
+                                    _id,
+                                    totalAmount,
+                                    lastTimestamp
+                                }
+                                }`;
+        return ajax.getJSON<DebtsList[]>(this.baseUrl + "?query=" + encodeURIComponent(query));
+    }
+
     fetchDebts(): Observable<Debt[]> {
         let query: string = `{ debts {
                                 _id,
