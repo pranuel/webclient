@@ -16,6 +16,7 @@ interface Debt {
 
 interface DebtsList {
     _id: string,
+    title: string,
     members: User[],
     debts: Debt[],
     totalAmount: number,

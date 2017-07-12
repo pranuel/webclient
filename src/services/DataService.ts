@@ -1,14 +1,19 @@
 import { Observable } from "rxjs";
 import { ajax } from 'rxjs/observable/dom/ajax';
+import { getAccessToken } from './AuthService';
 
 export class DataService {
 
     private baseUrl = "http://localhost:4001/graphql";
+    private get headers() {
+        return  { Authorization: `Bearer ${getAccessToken()}` };
+    }
 
     fetchDebtsLists(): Observable<DebtsList[]> {
         let query: string = `{
                                 debtsLists {
                                     members {
+                                        _id,
                                         firstName,
                                         lastName,
                                         photoUrl
@@ -18,7 +23,7 @@ export class DataService {
                                     lastTimestamp
                                 }
                                 }`;
-        return ajax.getJSON<DebtsList[]>(this.baseUrl + "?query=" + encodeURIComponent(query));
+        return ajax.getJSON<DebtsList[]>(this.baseUrl + "?query=" + encodeURIComponent(query), this.headers);
     }
 
     fetchDebts(): Observable<Debt[]> {
@@ -40,7 +45,7 @@ export class DataService {
                                     photoUrl
                                 }
                                 } }`;
-        return ajax.getJSON<Debt[]>(this.baseUrl + "?query=" + encodeURIComponent(query));
+        return ajax.getJSON<Debt[]>(this.baseUrl + "?query=" + encodeURIComponent(query), this.headers);
     }
 
     // updateExpense(expense: Expense): Observable<{}> {
