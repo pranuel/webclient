@@ -3,11 +3,11 @@ import { browserHistory } from 'react-router';
 import * as auth0 from 'auth0-js';
 
 
-const authConfig = {
+const config = {
     domain: 'pranuel.eu.auth0.com',
     clientID: 'x97CfrtUlj0hVvvm0RU6RKxrEbY35rp2',
     redirectUri: 'http://localhost:8888/callback',
-    audience: 'https://pranuel.eu.auth0.com/userinfo',
+    audience: 'https://iou.de', // <-- audience of the API (not client)
     responseType: 'token id_token',
     scope: 'openid profile read:all'
 };
@@ -16,17 +16,12 @@ const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
 
 var auth = new auth0.WebAuth({
-    clientID: authConfig.clientID,
-    domain: authConfig.domain
+    clientID: config.clientID,
+    domain: config.domain
 });
 
 export function login() {
-    auth.authorize({
-        responseType: 'token id_token',
-        redirectUri: authConfig.redirectUri,
-        audience: authConfig.audience,
-        scope: authConfig.scope
-    });
+    auth.authorize(config);
 }
 
 export function logout() {
@@ -72,9 +67,7 @@ export function setAccessToken() {
 // Get and store id_token in local storage
 export function setIdToken() {
     let idToken = getParameterByName('id_token');
-    if (idToken) {
-        localStorage.setItem(ID_TOKEN_KEY, idToken);
-    }
+    localStorage.setItem(ID_TOKEN_KEY, idToken);
 }
 
 export function isLoggedIn() {
