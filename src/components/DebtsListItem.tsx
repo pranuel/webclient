@@ -13,7 +13,7 @@ export class DebtsListItem extends React.Component<OwnProps, {}> {
         const { debtsList } = this.props;
 
         return (
-            <Card href={`#/debtsList/${debtsList._id}`}>
+            <Card href={`debtsList/${debtsList._id}`}>
                 <Card.Content>
                     <Card.Header>{debtsList.totalAmount}€</Card.Header>
                 </Card.Content>
