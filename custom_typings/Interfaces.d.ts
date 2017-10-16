@@ -1,42 +1,34 @@
-interface User {
-    id: string,
+interface Entity {
+    id: string
+}
+
+interface User extends Entity {
     firstName: string,
     lastName: string,
     photoUrl: string
 }
 
-interface Debt {
-    _id: string,
+interface Debt extends Entity {
+    debtorId: string,
     debtor: User,
+    creditorId: string,
     creditor: User,
     amount: number,
     timestamp: number,
     reason: string
 }
 
-interface DebtsList {
-    id: string,
+interface DebtsSummary extends Entity {
+    userId: string,
     user: User,
     debtDifference: number,
     lastDebtTimestamp: number
 }
 
-declare namespace Store {
+interface DebtsSummariesListState {
+    debtsSummariesList: DebtsSummary[]
+}
 
-    export type DebtsListsProps = {
-        debtsLists: DebtsList[],
-        isFetchingDebtsLists: boolean
-    }
-
-    export type DebtsProps = {
-        debts: Debt[],
-        isFetchingDebts: boolean
-    }
-
-    export type DebtProps = {
-        debt: Debt,
-        isFetchingDebt: boolean
-    }
-
-    export type All = DebtsListsProps & DebtsProps & DebtProps;
+interface AppState {
+    me: User
 }

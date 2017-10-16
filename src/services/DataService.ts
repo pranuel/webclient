@@ -1,5 +1,3 @@
-import { Observable } from "rxjs";
-import { ajax } from 'rxjs/observable/dom/ajax';
 import { getAccessToken } from './AuthService';
 
 export class DataService {
@@ -9,47 +7,31 @@ export class DataService {
         return  { Authorization: `Bearer ${getAccessToken()}` };
     }
 
-    fetchDebtsLists(): Observable<DebtsList[]> {
-        return ajax.getJSON<DebtsList[]>(this.baseUrl + "debtssummaries", this.headers);
+    async getDebtsSummaries(): Promise<DebtsSummary[]> {
+        let response = await fetch(this.baseUrl + "debtssummaries", {
+            headers: this.headers
+        });
+        return response.json() as Promise<DebtsSummary[]>;
     }
 
-    fetchDebts(): Observable<Debt[]> {
-        let query: string = `{ debts {
-                                _id,
-                                timestamp,
-                                reason,
-                                amount,
-                                debtor {
-                                    _id,
-                                    firstName,
-                                    lastName,
-                                    photoUrl
-                                },
-                                creditor {
-                                    _id,
-                                    firstName,
-                                    lastName,
-                                    photoUrl
-                                }
-                                } }`;
-        return ajax.getJSON<Debt[]>(this.baseUrl + "?query=" + encodeURIComponent(query), this.headers);
+    async getMe(): Promise<User> {
+        let response = await fetch(this.baseUrl + "users/me", {
+            headers: this.headers
+        });
+        return response.json() as Promise<User>;
     }
 
-    // updateExpense(expense: Expense): Observable<{}> {
-    //     return ajax.put(`${this.baseUrl}/api/expenses/${expense.id}`, expense, this.headers).map(ajaxResponse => {
-    //         return ajaxResponse.response as {};
-    //     });
-    // }
+    async createMe(me: User): Promise<User> {
+        let response = await this.getPostRequest(this.baseUrl + "users/me", JSON.stringify(me));
+        return response.json() as Promise<User>;
+    }
 
-    // addExpense(expense: Expense): Observable<string> {
-    //     return ajax.post(`${this.baseUrl}/api/expenses/${expense.id}`, expense, this.headers).map(ajaxResponse => {
-    //         return ajaxResponse.response as string;
-    //     });
-    // }
-
-    // deleteExpense(id: string): Observable<string> {
-    //     return ajax.delete(`${this.baseUrl}/api/expenses/${id}`, this.headers).map(ajaxResponse => {
-    //         return id;
-    //     });
-    // }
+    private getPostRequest(url: string, jsonBody: string): Promise<Response> {
+        return fetch(url,
+        {
+            headers: this.headers,
+            method: "POST",
+            body: jsonBody
+        });
+    }
 }
