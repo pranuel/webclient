@@ -1,14 +1,3 @@
-export const FETCH_USERS = 'FETCH_USERS';
-export const FETCH_USERS_FULFILLED = 'FETCH_USERS_FULFILLED';
-
-export const fetchUsers = () => ({
-    type: FETCH_USERS
-});
-
-export const fetchUsersFulfilled = (payload: User[]) => ({
-    type: FETCH_USERS_FULFILLED, payload
-});
-
 export const FETCH_DEBTS = 'FETCH_DEBTS';
 export const FETCH_DEBTS_FULFILLED = 'FETCH_DEBTS_FULFILLED';
 
@@ -18,4 +7,15 @@ export const fetchDebts = () => ({
 
 export const fetchDebtsFulfilled = (payload: Debt[]) => ({
     type: FETCH_DEBTS_FULFILLED, payload
+});
+
+export const FETCH_DEBTS_LISTS = 'FETCH_DEBTS_LISTS';
+export const FETCH_DEBTS_LISTS_FULFILLED = 'FETCH_DEBTS_LISTS_FULFILLED';
+
+export const fetchDebtsLists = () => ({
+    type: FETCH_DEBTS_LISTS
+});
+
+export const fetchDebtsListsFulfilled = (payload: DebtsList[]) => ({
+    type: FETCH_DEBTS_LISTS_FULFILLED, payload
 });
