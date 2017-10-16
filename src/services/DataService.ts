@@ -4,26 +4,13 @@ import { getAccessToken } from './AuthService';
 
 export class DataService {
 
-    private baseUrl = "http://localhost:4001/graphql";
+    private baseUrl = "http://localhost:5000/api/";
     private get headers() {
         return  { Authorization: `Bearer ${getAccessToken()}` };
     }
 
     fetchDebtsLists(): Observable<DebtsList[]> {
-        let query: string = `{
-                                debtsLists {
-                                    members {
-                                        _id,
-                                        firstName,
-                                        lastName,
-                                        photoUrl
-                                    },
-                                    _id,
-                                    totalAmount,
-                                    lastTimestamp
-                                }
-                                }`;
-        return ajax.getJSON<DebtsList[]>(this.baseUrl + "?query=" + encodeURIComponent(query), this.headers);
+        return ajax.getJSON<DebtsList[]>(this.baseUrl + "debtssummaries", this.headers);
     }
 
     fetchDebts(): Observable<Debt[]> {

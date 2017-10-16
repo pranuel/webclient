@@ -1,5 +1,5 @@
 interface User {
-    _id: string,
+    id: string,
     firstName: string,
     lastName: string,
     photoUrl: string
@@ -15,12 +15,10 @@ interface Debt {
 }
 
 interface DebtsList {
-    _id: string,
-    title: string,
-    members: User[],
-    debts: Debt[],
-    totalAmount: number,
-    lastTimestamp: number
+    id: string,
+    user: User,
+    debtDifference: number,
+    lastDebtTimestamp: number
 }
 
 declare namespace Store {

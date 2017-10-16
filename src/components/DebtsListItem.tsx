@@ -13,22 +13,20 @@ export class DebtsListItem extends React.Component<OwnProps, {}> {
         const { debtsList } = this.props;
 
         return (
-            <Card href={`debtsList/${debtsList._id}`}>
+            <Card href={`debtsList/${debtsList.id}`}>
                 <Card.Content>
-                    <Card.Header>{debtsList.totalAmount}€</Card.Header>
+                    <Card.Header>{debtsList.debtDifference}€</Card.Header>
                 </Card.Content>
                 <Card.Content>
                     <Feed>
-                        {debtsList.members.map(member =>
-                            <Feed.Event key={member._id}>
-                                <Feed.Label image={member.photoUrl} />
-                                <Feed.Content content={`${member.firstName} ${member.lastName}`} />
-                            </Feed.Event>
-                        )}
+                        <Feed.Event key={debtsList.user.id}>
+                            <Feed.Label image={debtsList.user.photoUrl} />
+                            <Feed.Content content={`${debtsList.user.firstName} ${debtsList.user.lastName}`} />
+                        </Feed.Event>
                     </Feed>
                 </Card.Content>
                 <Card.Content extra>
-                    <FormattedRelative value={debtsList.lastTimestamp} />
+                    <FormattedRelative value={debtsList.lastDebtTimestamp} />
                 </Card.Content>
             </Card>
         );

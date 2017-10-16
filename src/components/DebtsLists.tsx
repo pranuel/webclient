@@ -41,7 +41,7 @@ class DebtsListsComponent extends React.Component<DebtsListsProps, {}> {
         return (
             <Card.Group stackable>
                 {debtsLists.map(debtsList =>
-                    <DebtsListItem debtsList={debtsList} key={debtsList._id}></DebtsListItem>
+                    <DebtsListItem debtsList={debtsList} key={debtsList.id}></DebtsListItem>
                 )}
             </Card.Group>
         );
