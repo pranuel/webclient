@@ -3,8 +3,7 @@ interface Entity {
 }
 
 interface User extends Entity {
-    firstName: string,
-    lastName: string,
+    name: string,
     photoUrl: string
 }
 
@@ -31,4 +30,8 @@ interface DebtsSummariesListState {
 
 interface AppState {
     me: User
+}
+
+interface CreateUserState {
+    user: User
 }

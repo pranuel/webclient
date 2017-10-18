@@ -17,7 +17,7 @@ export class DebtsSummariesListItem extends React.Component<OwnProps, {}> {
         return (
             <li>
                 <a href={`debts-list/${debtsSummary.userId}`}>
-                    <div>{debtsSummary.user.firstName} {debtsSummary.user.lastName}</div>
+                    <div>{debtsSummary.user.name}</div>
                     <div>{debtsSummary.debtDifference}</div>
                     <div>
                         <FormattedRelative value={debtsSummary.lastDebtTimestamp} />

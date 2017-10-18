@@ -9,12 +9,14 @@ import { App } from "./components/App";
 import { IntlProvider } from "react-intl";
 import { Callback } from "./components/Callback";
 import { DebtsSummariesList } from './components/DebtsSummariesList';
+import { CreateUserWithRouter } from './components/CreateUser';
 
 ReactDOM.render(
     <IntlProvider locale={navigator.language}>
         <Router history={browserHistory}>
             <Route path="/" component={App} onEnter={requireAuth}>
-                <IndexRoute component={DebtsSummariesList} />
+                <IndexRoute component={CreateUserWithRouter} onEnter={requireAuth} />
+                <Route path="/debtssummaries" component={DebtsSummariesList} onEnter={requireAuth} />
             </Route>
             <Route path="/callback" component={Callback} />
         </Router>

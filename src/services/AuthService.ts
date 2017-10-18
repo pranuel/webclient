@@ -36,8 +36,10 @@ export function requireAuth(nextState, replace) {
     }
 }
 
-export function getIdToken() {
-    return localStorage.getItem(ID_TOKEN_KEY);
+export function getIdToken(): IdToken {
+    let idTokenString = localStorage.getItem(ID_TOKEN_KEY);
+    let token = decode<IdToken>(idTokenString);
+    return token;
 }
 
 export function getAccessToken() {
@@ -75,8 +77,7 @@ export function isLoggedIn() {
     return !!idToken && !isTokenExpired(idToken);
 }
 
-function getTokenExpirationDate(encodedToken) {
-    const token = decode<{ exp: number }>(encodedToken);
+function getTokenExpirationDate(token: IdToken) {
     if (!token.exp) { return null; }
 
     const date = new Date(0);
@@ -85,7 +86,7 @@ function getTokenExpirationDate(encodedToken) {
     return date;
 }
 
-function isTokenExpired(token) {
+function isTokenExpired(token: IdToken) {
     const expirationDate = getTokenExpirationDate(token);
     return expirationDate < new Date();
 }
