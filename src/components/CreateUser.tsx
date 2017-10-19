@@ -51,11 +51,11 @@ class CreateUser extends React.Component<{ router: InjectedRouter }, CreateUserS
     render() {
 
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit.bind(this)}>
                 <img src={this.state.user.photoUrl} />
                 <label>
                     Name:
-                    <input value={this.state.user.name} onChange={this.handleNameChange} />
+                    <input value={this.state.user.name} onChange={this.handleNameChange.bind(this)} />
                 </label>
                 <input type="submit" value="Submit" />
             </form>
