@@ -8,23 +8,31 @@ export class DebtsSummariesList extends React.Component<{}, DebtsSummariesListSt
     constructor(props) {
         super(props);
         this.state = {
-            debtsSummariesList: null
+            debtsSummariesList: null,
+            me: null
         };
     }
 
     async componentDidMount() {
         let ds = new DataService();
         let debtsSummaries = await ds.getDebtsSummaries();
-        this.setState({
-            debtsSummariesList: debtsSummaries
-        });
+        this.setState({ debtsSummariesList: debtsSummaries });
+
+        let me = await ds.getMe();
+        this.setState({ me: me });
     }
 
     render() {
-        const { debtsSummariesList } = this.state;
+        const { debtsSummariesList, me } = this.state;
 
         return (
             <div>
+                {me &&
+                    <div>
+                        <img src={me.photoUrl} />
+                        <h1>{me.name}</h1>
+                    </div>
+                }
                 {
                     debtsSummariesList &&
                     <ul>

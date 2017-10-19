@@ -25,6 +25,7 @@ interface DebtsSummary extends Entity {
 }
 
 interface DebtsSummariesListState {
+    me: User,
     debtsSummariesList: DebtsSummary[]
 }
 
