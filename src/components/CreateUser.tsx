@@ -43,8 +43,8 @@ class CreateUser extends React.Component<{ router: InjectedRouter }, CreateUserS
     }
 
     async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        this.dataService.createMe(this.state.user);
         event.preventDefault();
+        await this.dataService.createMe(this.state.user);
         this.props.router.push("/debtssummaries");
     }
 
