@@ -2,21 +2,25 @@ import 'semantic-ui-css/semantic.min.css';
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Router, Route, Link, IndexRedirect, browserHistory, IndexRoute } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 import { requireAuth } from './services/AuthService';
-import { App } from "./components/App";
+import { App } from "./routes/App";
 import { IntlProvider } from "react-intl";
-import { Callback } from "./components/Callback";
-import { DebtsSummariesList } from './components/DebtsSummariesList';
-import { CreateUserWithRouter } from './components/CreateUser';
+import { Callback } from "./routes/Callback";
+import { DebtsSummariesList } from './routes/DebtsSummariesList';
+import { CreateUserWithRouter } from './routes/CreateUser';
+import { AddDebt } from './routes/AddDebt';
+import { SelectDebtPartner } from './routes/SelectDebtPartner';
 
 ReactDOM.render(
     <IntlProvider locale={navigator.language}>
         <Router history={browserHistory}>
             <Route path="/" component={App} onEnter={requireAuth}>
                 <IndexRoute component={CreateUserWithRouter} onEnter={requireAuth} />
-                <Route path="/debtssummaries" component={DebtsSummariesList} onEnter={requireAuth} />
+                <Route path="/debts-summaries" component={DebtsSummariesList} onEnter={requireAuth} />
+                <Route path="/add-debt/:partnerId" component={AddDebt} onEnter={requireAuth} />
+                <Route path="/select-debt-partner" component={SelectDebtPartner} onEnter={requireAuth} />
             </Route>
             <Route path="/callback" component={Callback} />
         </Router>

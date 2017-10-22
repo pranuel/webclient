@@ -18,10 +18,16 @@ interface Debt extends Entity {
 }
 
 interface DebtsSummary extends Entity {
-    userId: string,
-    user: User,
+    partnerId: string,
+    partner: User,
     debtDifference: number,
     lastDebtTimestamp: number
+}
+
+interface DebtsList extends Entity {
+    partnerId: string,
+    partner: User,
+    debts: Debt[]
 }
 
 interface DebtsSummariesListState {
@@ -35,4 +41,21 @@ interface AppState {
 
 interface CreateUserState {
     user: User
+}
+
+interface AddDebtState {
+    debt: Debt,
+    me: User,
+    partner: User
+}
+
+interface AddDebtProps {
+    params: {
+        partnerId: string
+    }
+}
+
+interface SelectDebtPartnerState {
+    partner: User,
+    nameQuery: string
 }

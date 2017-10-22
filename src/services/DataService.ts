@@ -8,20 +8,19 @@ export class DataService {
     }
 
     async getDebtsSummaries(): Promise<DebtsSummary[]> {
-        let response = await fetch(this.baseUrl + "debtssummaries", {
-            headers: this.headers
-        });
-        return response.json() as Promise<DebtsSummary[]>;
+        return await this.getOrDefault<DebtsSummary[]>(this.baseUrl + "debtssummaries");
     }
 
     async getMe(): Promise<User> {
-        let response = await fetch(this.baseUrl + "users/me", {
-            headers: this.headers
-        });
-        if (!response.ok) {
-            return Promise.resolve(null);
-        }
-        return response.json() as Promise<User>;
+        return await this.getOrDefault<User>(this.baseUrl + "users/me");
+    }
+
+    async getUserByName(name: string): Promise<User> {
+        return await this.getOrDefault<User>(`${this.baseUrl}users?name=${name}`);
+    }
+
+    async getUserById(id: string): Promise<User> {
+        return await this.getOrDefault<User>(`${this.baseUrl}users/${id}`);
     }
 
     async createMe(me: User): Promise<User> {
@@ -29,9 +28,23 @@ export class DataService {
         return response.json() as Promise<User>;
     }
 
+    async addDebt(debt: Debt): Promise<void> {
+        await this.postFormBody(this.baseUrl + "debts", debt);
+    }
+
+    private async getOrDefault<T>(url: string): Promise<T> {
+        let response = await fetch(url, {
+            headers: this.headers
+        });
+        if (response.ok) {
+            return response.json() as Promise<T>;
+        }
+        return Promise.resolve(null);
+    }
+
     /**
      * use this method if you want to post objects which contain null properties
-     * @param url endpoint url (without base url)
+     * @param url endpoint url
      * @param body the object you want to send (may contain properties which are null)
      */
     private postFormBody(url: string, body: Object): Promise<Response> {
@@ -50,7 +63,7 @@ export class DataService {
 
     /**
      * use this method if all properties of your object are defined (not null)
-     * @param url endpoint url (without base url)
+     * @param url endpoint url
      * @param jsonBody your object (must not contain null properties!) as JSON string
      */
     private postJsonBody(url: string, jsonBody: string): Promise<Response> {
