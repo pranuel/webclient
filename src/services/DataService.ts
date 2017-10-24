@@ -29,7 +29,15 @@ export class DataService {
     }
 
     async addDebt(debt: Debt): Promise<void> {
-        await this.postFormBody(this.baseUrl + "debts", debt);
+        await this.postJsonBody(this.baseUrl + "debts", debt);
+    }
+
+    async getDebtsForPartner(partnerId: string): Promise<Debt[]> {
+        return await this.getOrDefault<Debt[]>(`${this.baseUrl}debts?partnerid=${partnerId}`);
+    }
+
+    async getDebtsSummaryById(id: string): Promise<DebtsSummary> {
+        return await this.getOrDefault<DebtsSummary>(`${this.baseUrl}debtssummaries/${id}`);
     }
 
     private async getOrDefault<T>(url: string): Promise<T> {
@@ -66,7 +74,9 @@ export class DataService {
      * @param url endpoint url
      * @param jsonBody your object (must not contain null properties!) as JSON string
      */
-    private postJsonBody(url: string, jsonBody: string): Promise<Response> {
+    private postJsonBody(url: string, entity: Entity): Promise<Response> {
+        entity.id = "0";
+        let jsonBody = JSON.stringify(entity);
         let postHeaders = { ... this.headers, ...{ "Content-Type": "application/json" } };
         return fetch(url,
             {

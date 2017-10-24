@@ -38,6 +38,9 @@ export function requireAuth(nextState, replace) {
 
 export function getIdToken(): IdToken {
     let idTokenString = localStorage.getItem(ID_TOKEN_KEY);
+    if (!idTokenString) {
+        return null;
+    }
     let token = decode<IdToken>(idTokenString);
     return token;
 }

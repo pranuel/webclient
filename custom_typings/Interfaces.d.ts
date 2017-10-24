@@ -24,12 +24,6 @@ interface DebtsSummary extends Entity {
     lastDebtTimestamp: number
 }
 
-interface DebtsList extends Entity {
-    partnerId: string,
-    partner: User,
-    debts: Debt[]
-}
-
 interface DebtsSummariesListState {
     me: User,
     debtsSummariesList: DebtsSummary[]
@@ -49,10 +43,15 @@ interface AddDebtState {
     partner: User
 }
 
-interface AddDebtProps {
+interface RouteProps {
     params: {
-        partnerId: string
+        id: string
     }
+}
+
+interface DebtsListState {
+    debtsSummary: DebtsSummary,
+    debts: Debt[]
 }
 
 interface SelectDebtPartnerState {

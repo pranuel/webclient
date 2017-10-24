@@ -1,8 +1,9 @@
 import * as React from "react";
 import { DataService } from "../services/DataService";
+import { InjectedRouter } from "react-router";
 
 
-export class AddDebt extends React.Component<AddDebtProps, AddDebtState> {
+export class AddDebt extends React.Component<RouteProps & { router: InjectedRouter }, AddDebtState> {
 
     private dataService = new DataService();
 
@@ -39,21 +40,24 @@ export class AddDebt extends React.Component<AddDebtProps, AddDebtState> {
             debt: { ...this.state.debt, ...{ creditor: me } }
         });
 
-        let partner = await this.dataService.getUserById(this.props.params.partnerId);
+        let partner = await this.dataService.getUserById(this.props.params.id);
         this.setState({ partner: partner });
         this.setState({
             debt: { ...this.state.debt, ...{ debtor: partner } }
         });
     }
 
-    handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        let debt = this.state.debt;
+        debt.creditorId = debt.creditor.id;
+        debt.debtorId = debt.debtor.id;
         // set creation timestamp:
-        this.setState({
-            debt: { ...this.state.debt, ...{ timestamp: Date.now() } }
-        });
+        debt.timestamp = Date.now();
 
-        this.dataService.addDebt(this.state.debt);
+        await this.dataService.addDebt(debt);
+
+        this.props.router.push("/debts-summaries");
     }
 
     handleReasonChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -85,15 +89,18 @@ export class AddDebt extends React.Component<AddDebtProps, AddDebtState> {
         const { debt, me, partner } = this.state;
 
         return (
-            <form onSubmit={this.handleSubmit.bind(this)}>
-                <label>
-                    Amount:
-                    <input value={debt.amount} type="number" autoFocus={true} onChange={this.handleAmountChange.bind(this)} />
-                </label>
-                <label>
-                    Reason:
-                    <input value={debt.reason} onChange={this.handleReasonChange.bind(this)} />
-                </label>
+            <div>
+                <form onSubmit={this.handleSubmit.bind(this)}>
+                    <label>
+                        Amount:
+                        <input value={debt.amount} type="number" autoFocus={true} onChange={this.handleAmountChange.bind(this)} />
+                    </label>
+                    <label>
+                        Reason:
+                        <input value={debt.reason} onChange={this.handleReasonChange.bind(this)} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>
                 <label>
                     Debtor:
                     <p>{debt.debtor ? debt.debtor.name : ""}</p>
@@ -103,8 +110,7 @@ export class AddDebt extends React.Component<AddDebtProps, AddDebtState> {
                     Creditor:
                     <p>{debt.creditor ? debt.creditor.name : ""}</p>
                 </label>
-                <input type="submit" value="Submit" />
-            </form>
+            </div>
         );
     }
 

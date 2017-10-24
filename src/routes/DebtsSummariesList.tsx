@@ -28,14 +28,13 @@ export class DebtsSummariesList extends React.Component<{}, DebtsSummariesListSt
 
         return (
             <div>
-                {me &&
+                {!!me &&
                     <div>
                         <img src={me.photoUrl} />
                         <h1>{me.name}</h1>
                     </div>
                 }
-                {
-                    debtsSummariesList &&
+                {!!debtsSummariesList &&
                     <ul>
                         {debtsSummariesList.map(debtsSummary => (
                             <DebtsSummariesListItem key={debtsSummary.id} debtsSummary={debtsSummary} />
