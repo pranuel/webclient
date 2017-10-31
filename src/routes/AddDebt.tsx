@@ -76,12 +76,15 @@ export class AddDebt extends React.Component<RouteProps & { router: InjectedRout
 
     swapDebtorCreditor(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        let temp = this.state.debt.debtor;
+        let creditor = this.state.debt.debtor;
+        let debtor = this.state.debt.creditor;
         this.setState({
-            debt: { ...this.state.debt, ...{ debtor: this.state.debt.creditor } }
-        });
-        this.setState({
-            debt: { ...this.state.debt, ...{ creditor: temp } }
+            debt: {
+                ...this.state.debt, ...{
+                    debtor: debtor,
+                    creditor: creditor
+                }
+            }
         });
     }
 
