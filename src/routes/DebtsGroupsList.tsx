@@ -2,29 +2,29 @@ import { Component } from "react";
 import * as React from "react";
 import { DataService } from "../services/DataService";
 import { Link } from "react-router";
-import { DebtsSummariesListItem } from "../components/DebtsSummariesListItem";
+import { DebtsGroupsListItem } from "../components/DebtsGroupsListItem";
 
-export class DebtsSummariesList extends React.Component<{}, DebtsSummariesListState> {
+export class DebtsGroupsList extends React.Component<{}, DebtsGroupsListState> {
 
     constructor(props) {
         super(props);
         this.state = {
-            debtsSummariesList: null,
+            debtsGroupsList: null,
             me: null
         };
     }
 
     async componentDidMount() {
         let ds = new DataService();
-        let debtsSummaries = await ds.getDebtsSummaries();
-        this.setState({ debtsSummariesList: debtsSummaries });
+        let debtsGroups = await ds.getDebtsGroups();
+        this.setState({ debtsGroupsList: debtsGroups });
 
         let me = await ds.getMe();
         this.setState({ me: me });
     }
 
     render() {
-        const { debtsSummariesList, me } = this.state;
+        const { debtsGroupsList, me } = this.state;
 
         return (
             <div>
@@ -34,10 +34,10 @@ export class DebtsSummariesList extends React.Component<{}, DebtsSummariesListSt
                         <h1>{me.name}</h1>
                     </div>
                 }
-                {!!debtsSummariesList &&
+                {!!debtsGroupsList &&
                     <ul>
-                        {debtsSummariesList.map(debtsSummary => (
-                            <DebtsSummariesListItem key={debtsSummary.id} debtsSummary={debtsSummary} />
+                        {debtsGroupsList.map(debtsGroup => (
+                            <DebtsGroupsListItem key={debtsGroup.id} debtsGroup={debtsGroup} />
                         ))}
                     </ul>
                 }

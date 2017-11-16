@@ -1,5 +1,5 @@
 interface Entity {
-    id: string
+    id: number
 }
 
 interface User extends Entity {
@@ -8,25 +8,31 @@ interface User extends Entity {
 }
 
 interface Debt extends Entity {
-    debtorId: string,
-    debtor: User,
-    creditorId: string,
-    creditor: User,
-    amount: number,
-    timestamp: number,
-    reason: string
+    debtorId: number;
+    debtor: User;
+    creditorId: number;
+    creditor: User;
+    amount: number;
+    timestamp: number;
+    reason: string;
+    isRepaid: boolean;
+    debtsGroupId: number;
+    debtsGroup: DebtsGroup;
 }
 
-interface DebtsSummary extends Entity {
-    partnerId: string,
-    partner: User,
-    debtDifference: number,
-    lastDebtTimestamp: number
+interface DebtsGroup extends Entity {
+    user1Id: number;
+    user1: User;
+    user2Id: number;
+    user2: User;
+    debts: Debt[];
+    debtDifference: number;
+    lastDebtTimestamp: number;
 }
 
-interface DebtsSummariesListState {
+interface DebtsGroupsListState {
     me: User,
-    debtsSummariesList: DebtsSummary[]
+    debtsGroupsList: DebtsGroup[]
 }
 
 interface AppState {
@@ -50,8 +56,9 @@ interface RouteProps {
 }
 
 interface DebtsListState {
-    debtsSummary: DebtsSummary,
-    debts: Debt[]
+    debtsGroup: DebtsGroup,
+    debts: Debt[],
+    partner: User
 }
 
 interface SelectDebtPartnerState {

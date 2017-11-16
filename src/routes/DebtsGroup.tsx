@@ -4,37 +4,42 @@ import { DataService } from "../services/DataService";
 import { DebtsListItem } from "../components/DebtsListItem";
 import { Link } from "react-router";
 
-export class DebtsSummary extends React.Component<RouteProps, DebtsListState> {
+export class DebtsGroup extends React.Component<RouteProps, DebtsListState> {
 
     constructor(props) {
         super(props);
         this.state = {
-            debtsSummary: null,
-            debts: null
+            debtsGroup: null,
+            debts: null,
+            partner: null
         };
     }
 
     async componentDidMount() {
         let ds = new DataService();
 
-        let debtsSummary = await ds.getDebtsSummaryById(this.props.params.id);
-        this.setState({ debtsSummary: debtsSummary });
+        let debtsGroup = await ds.getDebtsGroupById(this.props.params.id);
+        this.setState({ debtsGroup: debtsGroup });
 
-        let debts = await ds.getDebtsForPartner(debtsSummary.partnerId);
+        let debts = debtsGroup.debts;
         this.setState({ debts: debts });
+
+        let me = await ds.getMe();
+        let partner = debtsGroup.user1Id === me.id ? debtsGroup.user1 : debtsGroup.user2;
+        this.setState({ partner: partner });
     }
 
     render() {
-        const { debts, debtsSummary } = this.state;
+        const { debts, debtsGroup, partner } = this.state;
 
         return (
             <div>
-                {!!debtsSummary &&
+                {!!debtsGroup && !!partner &&
                     <div>
-                        <div>{debtsSummary.partner.name}</div>
-                        <div>{debtsSummary.debtDifference}</div>
+                        <div>{partner.name}</div>
+                        <div>{debtsGroup.debtDifference}</div>
                         <div>
-                            <FormattedRelative value={debtsSummary.lastDebtTimestamp} />
+                            <FormattedRelative value={debtsGroup.lastDebtTimestamp} />
                         </div>
                     </div>
                 }
@@ -45,8 +50,8 @@ export class DebtsSummary extends React.Component<RouteProps, DebtsListState> {
                         ))}
                     </ul>
                 }
-                {!!debtsSummary &&
-                    <Link to={`/add-debt/${debtsSummary.partnerId}`}>Add Debt</Link>
+                {!!partner &&
+                    <Link to={`/add-debt/${partner.id}`}>Add Debt</Link>
                 }
             </div>
         );

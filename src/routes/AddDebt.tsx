@@ -13,20 +13,23 @@ export class AddDebt extends React.Component<RouteProps & { router: InjectedRout
             debt: {
                 amount: 0,
                 creditor: null,
-                creditorId: null,
+                creditorId: 0,
                 debtor: null,
-                debtorId: null,
-                id: null,
+                debtorId: 0,
+                id: 0,
                 reason: "",
-                timestamp: null
+                timestamp: null,
+                isRepaid: false,
+                debtsGroupId: 0,
+                debtsGroup: null
             },
             me: {
-                id: null,
+                id: 0,
                 name: null,
                 photoUrl: null
             },
             partner: {
-                id: null,
+                id: 0,
                 name: null,
                 photoUrl: null
             }
@@ -57,7 +60,7 @@ export class AddDebt extends React.Component<RouteProps & { router: InjectedRout
 
         await this.dataService.addDebt(debt);
 
-        this.props.router.push("/debts-summaries");
+        this.props.router.push("/debts-groups");
     }
 
     handleReasonChange(event: React.ChangeEvent<HTMLInputElement>) {
