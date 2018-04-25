@@ -7,6 +7,14 @@ export class DataService {
         return { Authorization: `Bearer ${getAccessToken()}` };
     }
 
+    async getUsers(): Promise<User[]> {
+        return await this.getOrDefault<User[]>(this.baseUrl + 'users');
+    }
+
+    async getDebts(): Promise<Debt[]> {
+        return await this.getOrDefault<Debt[]>(this.baseUrl + 'debts');
+    }
+
     async getDebtsGroups(): Promise<DebtsGroup[]> {
         return await this.getOrDefault<DebtsGroup[]>(this.baseUrl + "debtsgroups");
     }
@@ -75,7 +83,6 @@ export class DataService {
      * @param jsonBody your object (must not contain null properties!) as JSON string
      */
     private postJsonBody(url: string, entity: Entity): Promise<Response> {
-        entity.id = 0;
         let jsonBody = JSON.stringify(entity);
         let postHeaders = { ... this.headers, ...{ "Content-Type": "application/json" } };
         return fetch(url,

@@ -2,8 +2,14 @@ import * as React from "react";
 import { DataService } from "../services/DataService";
 import { InjectedRouter } from "react-router";
 
+interface AddDebtState {
+    debt: Debt,
+    me?: User,
+    partnerId?: number,
+    users: User[]
+}
 
-export class AddDebt extends React.Component<RouteProps & { router: InjectedRouter }, AddDebtState> {
+export class AddDebt extends React.Component<{ router: InjectedRouter }, AddDebtState> {
 
     private dataService = new DataService();
 
@@ -19,20 +25,9 @@ export class AddDebt extends React.Component<RouteProps & { router: InjectedRout
                 id: 0,
                 reason: "",
                 timestamp: null,
-                isRepaid: false,
-                debtsGroupId: 0,
-                debtsGroup: null
+                isRepaid: false
             },
-            me: {
-                id: 0,
-                name: null,
-                photoUrl: null
-            },
-            partner: {
-                id: 0,
-                name: null,
-                photoUrl: null
-            }
+            users: []
         };
     }
 
@@ -43,10 +38,11 @@ export class AddDebt extends React.Component<RouteProps & { router: InjectedRout
             debt: { ...this.state.debt, ...{ creditor: me } }
         });
 
-        let partner = await this.dataService.getUserById(this.props.params.id);
-        this.setState({ partner: partner });
+        let users = await this.dataService.getUsers();
+        let usersWithoutMe = users.filter(user => user.id !== me.id);
+        this.setState({ users: usersWithoutMe });
         this.setState({
-            debt: { ...this.state.debt, ...{ debtor: partner } }
+            debt: { ...this.state.debt, ...{ debtor: usersWithoutMe[0], debtorId: usersWithoutMe[0].id } }
         });
     }
 
@@ -60,7 +56,7 @@ export class AddDebt extends React.Component<RouteProps & { router: InjectedRout
 
         await this.dataService.addDebt(debt);
 
-        this.props.router.push("/debts-groups");
+        this.props.router.push("/debts-list");
     }
 
     handleReasonChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -77,22 +73,19 @@ export class AddDebt extends React.Component<RouteProps & { router: InjectedRout
         });
     }
 
-    swapDebtorCreditor(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        let creditor = this.state.debt.debtor;
-        let debtor = this.state.debt.creditor;
-        this.setState({
-            debt: {
-                ...this.state.debt, ...{
-                    debtor: debtor,
-                    creditor: creditor
-                }
-            }
-        });
+    handlePartnerIdChange(event: React.ChangeEvent<HTMLSelectElement>) {
+        let partnerId = Number(event.target.value);
+        this.setState({ partnerId });
+        let partner = this.state.users.find(user => user.id === partnerId);
+        if (!!partner) {
+            this.setState({
+                debt: { ...this.state.debt, ...{ debtorId: partner.id, debtor: partner } }
+            });
+        }
     }
 
     render() {
-        const { debt, me, partner } = this.state;
+        const { debt, me, partnerId, users } = this.state;
 
         return (
             <div>
@@ -110,8 +103,12 @@ export class AddDebt extends React.Component<RouteProps & { router: InjectedRout
                 <label>
                     Debtor:
                     <p>{debt.debtor ? debt.debtor.name : ""}</p>
+                    <select value={partnerId} onChange={this.handlePartnerIdChange.bind(this)}>
+                        {users.map(user => (
+                            <option value={user.id} key={user.id}>{user.name}</option>
+                        ))}
+                    </select>
                 </label>
-                <button onClick={this.swapDebtorCreditor.bind(this)}>Swap</button>
                 <label>
                     Creditor:
                     <p>{debt.creditor ? debt.creditor.name : ""}</p>

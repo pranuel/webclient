@@ -16,8 +16,8 @@ interface Debt extends Entity {
     timestamp: number;
     reason: string;
     isRepaid: boolean;
-    debtsGroupId: number;
-    debtsGroup: DebtsGroup;
+    // debtsGroupId: number;
+    // debtsGroup: DebtsGroup;
 }
 
 interface DebtsGroup extends Entity {
@@ -41,12 +41,6 @@ interface AppState {
 
 interface CreateUserState {
     user: User
-}
-
-interface AddDebtState {
-    debt: Debt,
-    me: User,
-    partner: User
 }
 
 interface RouteProps {

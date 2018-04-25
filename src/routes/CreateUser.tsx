@@ -22,7 +22,7 @@ class CreateUser extends React.Component<{ router: InjectedRouter }, CreateUserS
         let me = await this.dataService.getMe();
         // check if me exists, then redirect to debts groups:
         if (!!me) {
-            this.props.router.push("/debts-groups");
+            this.props.router.push("/debts-list");
         } else {
             let idToken = getIdToken();
             this.setState({
@@ -45,7 +45,7 @@ class CreateUser extends React.Component<{ router: InjectedRouter }, CreateUserS
     async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         await this.dataService.createMe(this.state.user);
-        this.props.router.push("/debts-groups");
+        this.props.router.push("/debts-list");
     }
 
     render() {
