@@ -15,15 +15,27 @@ export class DebtsListItem extends React.Component<OwnProps, {}> {
         const { debt } = this.props;
 
         return (
-            <li>
-                <p>Creditor: {debt.creditor.name}</p>
-                <p>Debtor: {debt.debtor.name}</p>
-                <p>Amount: {debt.amount}</p>
-                <p>Reason: {debt.reason}</p>
-                <div>
-                    <FormattedRelative value={debt.timestamp} />
+            <div className='event'>
+                <div className='label'>
+                    <img src={debt.creditor.photoUrl}></img>
                 </div>
-            </li>
+                <div className='content'>
+                    <div className='date'>
+                        <FormattedRelative value={debt.timestamp} />
+                    </div>
+                    <div className='summary'>
+                        {debt.creditor.name}
+                    </div>
+                    <div className='extra text'>
+                        {debt.reason}
+                    </div>
+                    <div className='meta'>
+                        <a className='like'>
+                            <i className='euro sign icon'></i> {debt.amount}
+                        </a>
+                    </div>
+                </div>
+            </div>
         );
     }
 }

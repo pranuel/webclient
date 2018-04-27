@@ -7,6 +7,7 @@ interface AddDebtState {
     me?: User;
     partnerId?: number;
     users: User[];
+    debtor: User;
 }
 
 export class AddDebt extends React.Component<{ history: History }, AddDebtState> {
@@ -27,7 +28,8 @@ export class AddDebt extends React.Component<{ history: History }, AddDebtState>
                 timestamp: null,
                 isRepaid: false
             },
-            users: []
+            users: [],
+            debtor: null
         };
     }
 
@@ -49,8 +51,8 @@ export class AddDebt extends React.Component<{ history: History }, AddDebtState>
     async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         let debt = this.state.debt;
-        debt.creditorId = debt.creditor.id;
-        debt.debtorId = debt.debtor.id;
+        debt.debtorId = this.state.debtor.id;
+        debt.debtor = this.state.debtor;
         // set creation timestamp:
         debt.timestamp = Date.now();
 
@@ -73,6 +75,12 @@ export class AddDebt extends React.Component<{ history: History }, AddDebtState>
         });
     }
 
+    selectDebtor(debtor: User) {
+        let bla = this.state.debtor;
+        this.setState({ debtor });
+        let foo = this.state.debtor;
+    }
+
     handlePartnerIdChange(event: React.ChangeEvent<HTMLSelectElement>) {
         let partnerId = Number(event.target.value);
         this.setState({ partnerId });
@@ -85,35 +93,46 @@ export class AddDebt extends React.Component<{ history: History }, AddDebtState>
     }
 
     render() {
-        const { debt, me, partnerId, users } = this.state;
+        const { debt, me, partnerId, users, debtor } = this.state;
 
         return (
-            <div>
-                <form onSubmit={this.handleSubmit.bind(this)}>
-                    <label>
-                        Amount:
-                        <input value={debt.amount} type='number' autoFocus={true} onChange={this.handleAmountChange.bind(this)} />
-                    </label>
-                    <label>
-                        Reason:
-                        <input value={debt.reason} onChange={this.handleReasonChange.bind(this)} />
-                    </label>
-                    <input type='submit' value='Submit' />
-                </form>
-                <label>
-                    Debtor:
-                    <p>{debt.debtor ? debt.debtor.name : ''}</p>
-                    <select value={partnerId} onChange={this.handlePartnerIdChange.bind(this)}>
-                        {users.map(user => (
-                            <option value={user.id} key={user.id}>{user.name}</option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Creditor:
-                    <p>{debt.creditor ? debt.creditor.name : ''}</p>
-                </label>
-            </div>
+
+            <form className='ui form' onSubmit={this.handleSubmit.bind(this)}>
+                <div className='fields'>
+                    <div className='field'>
+                        <label>Amount</label>
+                        <input type='number' placeholder='Amount' autoFocus value={debt.amount} onChange={this.handleAmountChange.bind(this)} />
+                    </div>
+                    <div className='field'>
+                        <label>Reason</label>
+                        <input type='text' placeholder='Reason' value={debt.reason} onChange={this.handleReasonChange.bind(this)} />
+                    </div>
+                    <div className='field'>
+                        <label>Debtor</label>
+                        <div className='ui simple selection dropdown'>
+                            <i className='dropdown icon'></i>
+                            {!!debtor ?
+                                <div className='text'>
+                                    <img className='ui avatar image' src={debtor.photoUrl} />
+                                    <span>{debtor.name}</span>
+                                </div>
+                                :
+                                <div className='default text'>Debtor</div>
+                            }
+                            <div className='menu'>
+                                {users.map(user => (
+                                    <div key={user.id} className='item' onClick={() => this.selectDebtor(user)}>
+                                        <img className='ui avatar image' src={user.photoUrl} />
+                                        <span>{user.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button className='ui button' type='submit'>Submit</button>
+            </form>
         );
     }
 

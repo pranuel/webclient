@@ -32,11 +32,11 @@ export class DebtsList extends React.Component<RouteProps, DebtsListState> {
         return (
             <div>
                 {!!debts &&
-                    <ul>
+                    <div className='ui feed'>
                         {debts.map(debt => (
                             <DebtsListItem key={debt.id} debt={debt} />
                         ))}
-                    </ul>
+                    </div>
                 }
                 <Link to={'/add-debt'}>Add Debt</Link>
             </div>
