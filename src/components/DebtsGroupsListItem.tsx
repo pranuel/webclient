@@ -1,10 +1,10 @@
-import * as React from "react";
-import { FormattedRelative } from "react-intl";
-import { Link } from "react-router";
+import * as React from 'react';
+import { FormattedRelative } from 'react-intl';
+import { Link } from 'react-router';
 
 type OwnProps = {
     debtsGroup: DebtsGroup
-}
+};
 
 export class DebtsGroupsListItem extends React.Component<OwnProps, {}> {
 

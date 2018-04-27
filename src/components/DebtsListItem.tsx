@@ -1,9 +1,9 @@
-import * as React from "react";
-import { FormattedRelative } from "react-intl";
+import * as React from 'react';
+import { FormattedRelative } from 'react-intl';
 
 type OwnProps = {
     debt: Debt
-}
+};
 
 export class DebtsListItem extends React.Component<OwnProps, {}> {
 

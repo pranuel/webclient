@@ -2,7 +2,7 @@ import { getAccessToken } from './AuthService';
 
 export class DataService {
 
-    private baseUrl = "http://localhost:5000/api/";
+    private baseUrl = 'http://localhost:5000/api/';
     private get headers() {
         return { Authorization: `Bearer ${getAccessToken()}` };
     }
@@ -16,11 +16,11 @@ export class DataService {
     }
 
     async getDebtsGroups(): Promise<DebtsGroup[]> {
-        return await this.getOrDefault<DebtsGroup[]>(this.baseUrl + "debtsgroups");
+        return await this.getOrDefault<DebtsGroup[]>(this.baseUrl + 'debtsgroups');
     }
 
     async getMe(): Promise<User> {
-        return await this.getOrDefault<User>(this.baseUrl + "users/me");
+        return await this.getOrDefault<User>(this.baseUrl + 'users/me');
     }
 
     async getUserByName(name: string): Promise<User> {
@@ -32,12 +32,12 @@ export class DataService {
     }
 
     async createMe(me: User): Promise<User> {
-        let response = await this.postFormBody(this.baseUrl + "users/me", me);
+        let response = await this.postFormBody(this.baseUrl + 'users/me', me);
         return response.json() as Promise<User>;
     }
 
     async addDebt(debt: Debt): Promise<void> {
-        await this.postJsonBody(this.baseUrl + "debts", debt);
+        await this.postJsonBody(this.baseUrl + 'debts', debt);
     }
 
     async getDebtsForPartner(partnerId: string): Promise<Debt[]> {
@@ -66,13 +66,15 @@ export class DataService {
     private postFormBody(url: string, body: Object): Promise<Response> {
         var formData = new FormData();
         for (var k in body) {
-            formData.append(k, body[k]);
+            if (!!k) {
+                formData.append(k, body[k]);
+            }
         }
 
         return fetch(url,
             {
                 headers: this.headers,
-                method: "POST",
+                method: 'POST',
                 body: formData
             });
     }
@@ -84,11 +86,11 @@ export class DataService {
      */
     private postJsonBody(url: string, entity: Entity): Promise<Response> {
         let jsonBody = JSON.stringify(entity);
-        let postHeaders = { ... this.headers, ...{ "Content-Type": "application/json" } };
+        let postHeaders = { ... this.headers, ...{ 'Content-Type': 'application/json' } };
         return fetch(url,
             {
                 headers: postHeaders,
-                method: "POST",
+                method: 'POST',
                 body: jsonBody
             });
     }

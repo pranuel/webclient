@@ -1,7 +1,7 @@
-import * as React from "react";
-import { InjectedRouter, withRouter } from "react-router";
-import { DataService } from "../services/DataService";
-import { getIdToken } from "../services/AuthService";
+import * as React from 'react';
+import { InjectedRouter, withRouter } from 'react-router';
+import { DataService } from '../services/DataService';
+import { getIdToken } from '../services/AuthService';
 
 class CreateUser extends React.Component<{ router: InjectedRouter }, CreateUserState> {
 
@@ -11,8 +11,8 @@ class CreateUser extends React.Component<{ router: InjectedRouter }, CreateUserS
         super(props);
         this.state = {
             user: {
-                name: "",
-                photoUrl: "",
+                name: '',
+                photoUrl: '',
                 id: null
             }
         };
@@ -22,7 +22,7 @@ class CreateUser extends React.Component<{ router: InjectedRouter }, CreateUserS
         let me = await this.dataService.getMe();
         // check if me exists, then redirect to debts groups:
         if (!!me) {
-            this.props.router.push("/debts-list");
+            this.props.router.push('/debts-list');
         } else {
             let idToken = getIdToken();
             this.setState({
@@ -39,13 +39,13 @@ class CreateUser extends React.Component<{ router: InjectedRouter }, CreateUserS
         let name = event.target.value;
         this.setState({
             user: { ...this.state.user, ...{ name: name } }
-        })
+        });
     }
 
     async handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         await this.dataService.createMe(this.state.user);
-        this.props.router.push("/debts-list");
+        this.props.router.push('/debts-list');
     }
 
     render() {
@@ -59,7 +59,7 @@ class CreateUser extends React.Component<{ router: InjectedRouter }, CreateUserS
                     Name:
                     <input value={user.name} onChange={this.handleNameChange.bind(this)} />
                 </label>
-                <input type="submit" value="Submit" />
+                <input type='submit' value='Submit' />
             </form>
         );
     }

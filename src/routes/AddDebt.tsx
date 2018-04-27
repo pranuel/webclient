@@ -1,12 +1,12 @@
-import * as React from "react";
-import { DataService } from "../services/DataService";
-import { InjectedRouter } from "react-router";
+import * as React from 'react';
+import { DataService } from '../services/DataService';
+import { InjectedRouter } from 'react-router';
 
 interface AddDebtState {
-    debt: Debt,
-    me?: User,
-    partnerId?: number,
-    users: User[]
+    debt: Debt;
+    me?: User;
+    partnerId?: number;
+    users: User[];
 }
 
 export class AddDebt extends React.Component<{ router: InjectedRouter }, AddDebtState> {
@@ -23,7 +23,7 @@ export class AddDebt extends React.Component<{ router: InjectedRouter }, AddDebt
                 debtor: null,
                 debtorId: 0,
                 id: 0,
-                reason: "",
+                reason: '',
                 timestamp: null,
                 isRepaid: false
             },
@@ -56,7 +56,7 @@ export class AddDebt extends React.Component<{ router: InjectedRouter }, AddDebt
 
         await this.dataService.addDebt(debt);
 
-        this.props.router.push("/debts-list");
+        this.props.router.push('/debts-list');
     }
 
     handleReasonChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -92,17 +92,17 @@ export class AddDebt extends React.Component<{ router: InjectedRouter }, AddDebt
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <label>
                         Amount:
-                        <input value={debt.amount} type="number" autoFocus={true} onChange={this.handleAmountChange.bind(this)} />
+                        <input value={debt.amount} type='number' autoFocus={true} onChange={this.handleAmountChange.bind(this)} />
                     </label>
                     <label>
                         Reason:
                         <input value={debt.reason} onChange={this.handleReasonChange.bind(this)} />
                     </label>
-                    <input type="submit" value="Submit" />
+                    <input type='submit' value='Submit' />
                 </form>
                 <label>
                     Debtor:
-                    <p>{debt.debtor ? debt.debtor.name : ""}</p>
+                    <p>{debt.debtor ? debt.debtor.name : ''}</p>
                     <select value={partnerId} onChange={this.handlePartnerIdChange.bind(this)}>
                         {users.map(user => (
                             <option value={user.id} key={user.id}>{user.name}</option>
@@ -111,7 +111,7 @@ export class AddDebt extends React.Component<{ router: InjectedRouter }, AddDebt
                 </label>
                 <label>
                     Creditor:
-                    <p>{debt.creditor ? debt.creditor.name : ""}</p>
+                    <p>{debt.creditor ? debt.creditor.name : ''}</p>
                 </label>
             </div>
         );

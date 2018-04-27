@@ -1,6 +1,6 @@
-import * as React from "react";
-import { DataService } from "../services/DataService";
-import { Link } from "react-router";
+import * as React from 'react';
+import { DataService } from '../services/DataService';
+import { Link } from 'react-router';
 
 export class SelectDebtPartner extends React.Component<{}, SelectDebtPartnerState> {
 
@@ -9,7 +9,7 @@ export class SelectDebtPartner extends React.Component<{}, SelectDebtPartnerStat
     constructor(props) {
         super(props);
         this.state = {
-            nameQuery: "",
+            nameQuery: '',
             partner: null
         };
     }
@@ -43,7 +43,7 @@ export class SelectDebtPartner extends React.Component<{}, SelectDebtPartnerStat
                         <Link to={`/add-debt/${partner.id}`}>Add Debts List</Link>
                     </div>
                 }
-                <input type="submit" value="Search Partner" />
+                <input type='submit' value='Search Partner' />
             </form>
         );
     }

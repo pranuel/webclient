@@ -1,8 +1,8 @@
-import { Component } from "react";
-import * as React from "react";
-import { DataService } from "../services/DataService";
-import { Link } from "react-router";
-import { DebtsGroupsListItem } from "../components/DebtsGroupsListItem";
+import { Component } from 'react';
+import * as React from 'react';
+import { DataService } from '../services/DataService';
+import { Link } from 'react-router';
+import { DebtsGroupsListItem } from '../components/DebtsGroupsListItem';
 
 export class DebtsGroupsList extends React.Component<{}, DebtsGroupsListState> {
 
@@ -41,7 +41,7 @@ export class DebtsGroupsList extends React.Component<{}, DebtsGroupsListState> {
                         ))}
                     </ul>
                 }
-                <Link to="/select-debt-partner">Add Debts List</Link>
+                <Link to='/select-debt-partner'>Add Debts List</Link>
             </div>
         );
     }
