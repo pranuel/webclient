@@ -37,7 +37,7 @@ export class AddDebt extends React.Component<{ history: History }, AddDebtState>
         let me = await this.dataService.getMe();
         this.setState({ me: me });
         this.setState({
-            debt: { ...this.state.debt, ...{ creditor: me } }
+            debt: { ...this.state.debt, ...{ creditor: me, creditorId: me.id } }
         });
 
         let users = await this.dataService.getUsers();
