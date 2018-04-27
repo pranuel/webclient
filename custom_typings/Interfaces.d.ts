@@ -1,42 +1,61 @@
-interface User {
-    id: string,
-    firstName: string,
-    lastName: string,
+interface Entity {
+    id: number
+}
+
+interface User extends Entity {
+    name: string,
     photoUrl: string
 }
 
-interface Debt {
-    _id: string,
-    debtor: User,
-    creditor: User,
-    amount: number,
-    timestamp: number,
-    reason: string
+interface Debt extends Entity {
+    debtorId: number;
+    debtor: User;
+    creditorId: number;
+    creditor: User;
+    amount: number;
+    timestamp: number;
+    reason: string;
+    isRepaid: boolean;
+    // debtsGroupId: number;
+    // debtsGroup: DebtsGroup;
 }
 
-interface DebtsList {
-    id: string,
-    user: User,
-    debtDifference: number,
-    lastDebtTimestamp: number
+interface DebtsGroup extends Entity {
+    user1Id: number;
+    user1: User;
+    user2Id: number;
+    user2: User;
+    debts: Debt[];
+    debtDifference: number;
+    lastDebtTimestamp: number;
 }
 
-declare namespace Store {
+interface DebtsGroupsListState {
+    me: User,
+    debtsGroupsList: DebtsGroup[]
+}
 
-    export type DebtsListsProps = {
-        debtsLists: DebtsList[],
-        isFetchingDebtsLists: boolean
+interface AppState {
+    me: User
+}
+
+interface CreateUserState {
+    user: User
+}
+
+interface RouteProps {
+    params: {
+        id: string
     }
+}
 
-    export type DebtsProps = {
-        debts: Debt[],
-        isFetchingDebts: boolean
-    }
+interface DebtsListState {
+    debtsGroup: DebtsGroup,
+    debts: Debt[],
+    partner: User
+}
 
-    export type DebtProps = {
-        debt: Debt,
-        isFetchingDebt: boolean
-    }
-
-    export type All = DebtsListsProps & DebtsProps & DebtProps;
+interface SelectDebtPartnerState {
+    partner: User,
+    nameQuery: string
 }

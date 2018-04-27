@@ -1,34 +1,29 @@
-import * as React from "React";
-import { Card, Feed } from "semantic-ui-react";
-import { FormattedRelative } from "react-intl";
+import * as React from 'react';
+import { FormattedRelative } from 'react-intl';
 
 type OwnProps = {
-    debtsList: DebtsList
-}
+    debt: Debt
+};
 
 export class DebtsListItem extends React.Component<OwnProps, {}> {
 
-    render() {
+    constructor(props) {
+        super(props);
+    }
 
-        const { debtsList } = this.props;
+    render() {
+        const { debt } = this.props;
 
         return (
-            <Card href={`debtsList/${debtsList.id}`}>
-                <Card.Content>
-                    <Card.Header>{debtsList.debtDifference}€</Card.Header>
-                </Card.Content>
-                <Card.Content>
-                    <Feed>
-                        <Feed.Event key={debtsList.user.id}>
-                            <Feed.Label image={debtsList.user.photoUrl} />
-                            <Feed.Content content={`${debtsList.user.firstName} ${debtsList.user.lastName}`} />
-                        </Feed.Event>
-                    </Feed>
-                </Card.Content>
-                <Card.Content extra>
-                    <FormattedRelative value={debtsList.lastDebtTimestamp} />
-                </Card.Content>
-            </Card>
+            <li>
+                <p>Creditor: {debt.creditor.name}</p>
+                <p>Debtor: {debt.debtor.name}</p>
+                <p>Amount: {debt.amount}</p>
+                <p>Reason: {debt.reason}</p>
+                <div>
+                    <FormattedRelative value={debt.timestamp} />
+                </div>
+            </li>
         );
     }
 }
