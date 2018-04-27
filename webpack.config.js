@@ -43,8 +43,9 @@ module.exports = (env, { p } = argv) => ({
         ]
     },
     devServer: {
+        historyApiFallback: true,
         contentBase: distDir,
-        port: 3000
+        port: 8888
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),

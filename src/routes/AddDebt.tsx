@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataService } from '../services/DataService';
-import { InjectedRouter } from 'react-router';
+import { History } from 'history';
 
 interface AddDebtState {
     debt: Debt;
@@ -9,7 +9,7 @@ interface AddDebtState {
     users: User[];
 }
 
-export class AddDebt extends React.Component<{ router: InjectedRouter }, AddDebtState> {
+export class AddDebt extends React.Component<{ history: History }, AddDebtState> {
 
     private dataService = new DataService();
 
@@ -56,7 +56,7 @@ export class AddDebt extends React.Component<{ router: InjectedRouter }, AddDebt
 
         await this.dataService.addDebt(debt);
 
-        this.props.router.push('/debts-list');
+        this.props.history.push('/debts-list');
     }
 
     handleReasonChange(event: React.ChangeEvent<HTMLInputElement>) {

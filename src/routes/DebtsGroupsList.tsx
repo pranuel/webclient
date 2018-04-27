@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import * as React from 'react';
 import { DataService } from '../services/DataService';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { DebtsGroupsListItem } from '../components/DebtsGroupsListItem';
 
 export class DebtsGroupsList extends React.Component<{}, DebtsGroupsListState> {

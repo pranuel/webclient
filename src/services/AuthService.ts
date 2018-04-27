@@ -1,5 +1,5 @@
 import * as decode from 'jwt-decode';
-import { browserHistory } from 'react-router';
+// import { browserHistory } from 'react-router-dom';
 import * as auth0 from 'auth0-js';
 
 
@@ -27,13 +27,7 @@ export function login() {
 export function logout() {
     clearIdToken();
     clearAccessToken();
-    browserHistory.push('/');
-}
-
-export function requireAuth(nextState, replace) {
-    if (!isLoggedIn()) {
-        login();
-    }
+    // browserHistory.push('/');
 }
 
 export function getIdToken(): IdToken {

@@ -2,7 +2,7 @@ import { FormattedRelative } from 'react-intl';
 import * as React from 'react';
 import { DataService } from '../services/DataService';
 import { DebtsListItem } from '../components/DebtsListItem';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 interface DebtsListState {
     debts: Debt[];

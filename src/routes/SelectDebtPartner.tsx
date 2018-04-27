@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataService } from '../services/DataService';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export class SelectDebtPartner extends React.Component<{}, SelectDebtPartnerState> {
 
